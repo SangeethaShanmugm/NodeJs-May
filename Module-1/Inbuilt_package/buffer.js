@@ -14,3 +14,15 @@ console.log(buffer1.equals(buffer2))
 
 
 console.log(Buffer.compare(buffer1, buffer2))//(buffer1 => 12HELLO789) , (buffer2 => HELLO) => buffer1 is lesser than buffer2 => -1
+
+
+
+const a = Buffer.from("1234567")
+const b = Buffer.from("HELLO")
+
+console.log(a.toString())
+console.log(b.toString())
+
+var output = b.copy(a, 2)//12345HE
+
+console.log(output)
