@@ -63,3 +63,79 @@ for (let i = 1; i <= noOfFiles; i++) {
 
 
 
+//callback abstraction
+
+function fetchData(callback) {
+
+    setTimeout(() => {
+        const data = { message: "Data fetched successfully" }
+        callback(null, data)
+    }, 3000)
+}
+
+
+function handleData(err, data) {
+    if (err) {
+        console.log(err)
+    } else {
+        console.log(data)
+    }
+}
+
+fetchData(handleData)
+
+
+//callback chaining =>
+
+const cartItems = ["shirts", "pants", "shoes", "watch"]
+
+// api.createOrder(cartItems, function () {
+//     api.proceedToPayment(function () {
+//         api.showOrderSummary(function () {
+//             api.orderSection()
+//         })
+//     })
+// })
+//inversion of control => callback hell => pyramid of doom
+
+
+//callback chaining
+
+function timeToDelay(sec, callback) {
+    setTimeout(callback, sec * 2000)
+}
+
+console.log("Start Timer")
+
+timeToDelay(2, () => {
+    console.log("Two seonds")
+    timeToDelay(3, () => {
+        console.log("Three seonds")
+        timeToDelay(4, () => {
+            console.log("Four seonds")
+
+        })
+    })
+})
+
+//Promise
+
+let text = "hello123"
+
+const promise = new Promise(function (resolve, reject) {
+    if (text == "hello") {
+        resolve("There is a text")
+    } else {
+        reject("There is no text")
+    }
+})
+
+// console.log(promise)
+
+//promise chaining => .then()
+
+// createOrder(cartItems)
+//     .then((orderId) => proceedToPayment(orderId))
+//     .then((paymentInfo) => showOrderSummary(paymentInfo))
+//     .then((paymentInfo) => updateOrderSection(paymentInfo))
+
