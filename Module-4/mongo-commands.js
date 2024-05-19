@@ -72,3 +72,11 @@ db.movies.find({ rating: { $eq: 8 } }).pretty()
 
 
 db.movies.findOne({ rating: { $eq: 8 } })
+
+
+db.movies.findOne({ name: "Iron man 2" })
+
+
+db.movies.update({ name: "Iron man 2" }, { $set: { name: "Iron man 1" } })
+
+db.movies.deleteOne({ name: "Iron man 1" })
