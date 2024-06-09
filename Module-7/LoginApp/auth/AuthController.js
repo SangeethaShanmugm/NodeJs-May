@@ -5,13 +5,14 @@ const bcrypt = require("bcryptjs")
 const User = require("../Model/user")
 const jwt = require("jsonwebtoken")
 const config = require("../config")
-router.use(bodyParser.urlencoded({ extended: true }))
+const LocalStorage = require("node-localstorage").LocalStorage
+localStorage = new LocalStorage("../scratch")
 
-// parse application/json
+router.use(bodyParser.urlencoded({ extended: true }))
 router.use(bodyParser.json())
 
 router.post("/register", (req, res) => {
-    const hashedPassword = bcrypt.hashSync(req.body.password, 8)//no. of rounds
+    const hashedPassword = bcrypt.hashSync(req.body.password, 8)
     console.log(hashedPassword)
     User.create({
         name: req.body.name,
@@ -20,11 +21,34 @@ router.post("/register", (req, res) => {
     }).then((registeredUser) => {
         console.log("registeredUser", registeredUser)
         var token = jwt.sign({ id: registeredUser._id }, config.secret, {
-            expiresIn: 86400//expire in 24 hours
+            expiresIn: 86400
         })
         console.log(token)
     })
-    res.send("register successful")
+    res.redirect("/")
+})
+
+router.post("/login", (req, res) => {
+    User.findOne({ email: req.body.email }, async (err, user) => {
+        if (err) return res.send("error on server")
+        console.log(user)
+        if (!user) {
+            return res.send({ auth: false, token: null, msg: "Invalid credentials" })
+        }
+        const storedDbPassword = user.password
+        console.log(storedDbPassword)
+        const isPasswordMatch = await bcrypt.compare(req.body.password, storedDbPassword)
+        console.log(isPasswordMatch)
+        if (!isPasswordMatch) {
+            return res.send({ auth: false, token: null, msg: "Invalid credentials" })
+        }
+        var token = jwt.sign({ id: user._id }, config.secret, {
+            expiresIn: 86400
+        })
+        console.log(token)
+        localStorage.setItem("authToken", token)
+        res.redirect("/users/profile")  // Changed to absolute path
+    })
 })
 
 module.exports = router

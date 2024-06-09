@@ -30,6 +30,9 @@ router.get("/profile", (req, res) => {
     })
 })
 
-
+router.get("/logout", (req, res) => {
+    localStorage.removeItem("authToken")
+    res.redirect("/")
+})
 
 module.exports = router
