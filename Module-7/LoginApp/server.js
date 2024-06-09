@@ -69,6 +69,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/node_may", {
 const AuthController = require("./auth/AuthController")
 app.use("/api/auth", AuthController)
 
-
+const UserController = require("./user/UserController")
+app.use("/users", UserController)
 
 app.listen(PORT, () => console.log("Server started on the PORT", PORT))
