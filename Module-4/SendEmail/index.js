@@ -38,10 +38,10 @@ const OAuth2 = google.auth.OAuth2;
 console.log(process.env)
 
 // Replace these values with your credentials
-const CLIENT_ID = 'your-client-id';
-const CLIENT_SECRET = 'your-client-secret';
-const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
-const REFRESH_TOKEN = 'your-refresh-token';
+const CLIENT_ID = process.env.CLIENT_ID
+const CLIENT_SECRET = process.env.CLIENT_SECRET
+const REDIRECT_URI = process.env.REDIRECT_URI
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN
 
 // Set up OAuth2 client
 const oauth2Client = new OAuth2(
@@ -69,8 +69,8 @@ async function sendMail() {
         });
 
         const mailOptions = {
-            from: 'your-email@gmail.com',
-            to: 'recipient-email@gmail.com',
+            from: 'sanjuriya22@gmail.com',
+            to: 'sangeethashanmugam22@gmail.com',
             subject: 'Test Email',
             text: 'Hello from nodemailer!'
         };
